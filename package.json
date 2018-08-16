@@ -1,6 +1,6 @@
 {
   "name": "react-native-paypal-lib",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A wrapper for the paypal sdk for both android and ios.",
   "main": "index.js",
   "scripts": {
