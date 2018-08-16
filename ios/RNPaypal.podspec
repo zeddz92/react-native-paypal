@@ -1,17 +1,19 @@
+require 'json'
+package = JSON.parse(File.read('../package.json'))
 
 Pod::Spec.new do |s|
   s.name         = "RNPaypal"
-  s.version      = "1.0.0"
-  s.summary      = "RNPaypal"
+  s.version      =  package["version"]
+  s.summary      = package["description"]
   s.description  = <<-DESC
                   RNPaypal
                    DESC
-  s.homepage     = ""
-  s.license      = "MIT"
+  s.homepage     = "n/a"
+  s.license      = package['license']
   # s.license      = { :type => "MIT", :file => "FILE_LICENSE" }
-  s.author             = { "author" => "author@domain.cn" }
+  s.author             = { "zeddz92" => "lopezredd@gmail.com" }
   s.platform     = :ios, "7.0"
-  s.source       = { :git => "https://github.com/author/RNPaypal.git", :tag => "master" }
+  s.source       = { :git => "https://github.com/zeddz92/react-native-paypal.git", :tag => "master" }
   s.source_files  = "RNPaypal/**/*.{h,m}"
   s.requires_arc = true
 

@@ -1,16 +1,21 @@
 {
   "name": "react-native-paypal",
   "version": "1.0.0",
-  "description": "",
+  "description": "A wrapper for the paypal sdk for both android and ios.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "react-native"
+    "react-native",
+    "android",
+    "ios",
+    "react-native-paypal",
+    "paypal sdk",
+    "paypal"
   ],
-  "author": "",
-  "license": "",
+  "author": "Edward Reyes <lopezredd@gmail.com>",
+  "license": "MIT",
   "peerDependencies": {
     "react-native": "^0.41.2",
     "react-native-windows": "0.41.0-rc.1"

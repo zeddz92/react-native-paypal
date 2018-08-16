@@ -1,5 +1,6 @@
 
 # react-native-paypal
+A wrapper for the paypal sdk for both android and ios.
 
 ## Getting started
 
@@ -9,8 +10,25 @@
 
 `$ react-native link react-native-paypal`
 
-### Manual installation
+#### iOS Configuration
 
+Configure the project:
+```
+cd ios && pod init
+```
+
+Add the next line to your **PodFile**:
+```diff
++ pod 'RNPaypal', :path => '../node_modules/react-native-paypal/ios'
+```
+
+Install the RNPaypal pod:
+```
+pod install
+```
+
+
+### Manual installation
 
 #### iOS
 
@@ -34,20 +52,48 @@
       compile project(':react-native-paypal')
   	```
 
-#### Windows
-[Read it! :D](https://github.com/ReactWindows/react-native)
 
-1. In Visual Studio add the `RNPaypal.sln` in `node_modules/react-native-paypal/windows/RNPaypal.sln` folder to their solution, reference from their app.
-2. Open up your `MainPage.cs` app
-  - Add `using Paypal.RNPaypal;` to the usings at the top of the file
-  - Add `new RNPaypalPackage()` to the `List<IReactPackage>` returned by the `Packages` method
+## Properties
+| Prop | Description | Type |
+|---|---|---|
+|**`clientId`**|Your client id for each relevant environment, as obtained from developer.paypal.com |*String*|
+|**`environment`**|Your paypal environment. |*RNPaypal.ENVIRONMENT*|
+|**`intent`**|Name of the animation, see below for available animations. |*RNPaypal.INTENT*|
+|**`price`**| Amount in the given currency to process. Must be positive. |*Integer*|
+|**`currency`**|ISO standard currency code (http://en.wikipedia.org/wiki/ISO_4217). |*String*|
+|**`description`**|A short description of the transaction, for display to the user. |*String*|
+|**`acceptCreditCards`**|If set to NO, the SDK will only support paying with PayPal, not with credit cards. |*Bool*|
 
+
+## Environments
+The Environment. The allowed values are:
+- **`NO_NETWORK`**. No need for real credentials at Login prompt.
+- **`SANDBOX`**.  You'll need sandbox credentials in order to work at (https://developer.paypal.com/developer/accounts).
+- **`PRODUCTION`**. In order to work you need to have an production client id.
+
+
+## Intents
+The intent. The allowed values are:
+- **`SALE`**. For immediate payment.
+- **`AUTHORIZE`**.  For a delayed payment.
+- **`ORDER`**. An Order.
 
 ## Usage
 ```javascript
 import RNPaypal from 'react-native-paypal';
 
-// TODO: What to do with the module?
-RNPaypal;
+RNPaypal.paymentRequest({
+    clientId: 'AejRTPLsWAzFHPGlJ3VseKBkmaTHnAznnk-DlMmRL1LOzYwAlHatDg5SvYjdCf53qXWlYZq06gK2yeO8',
+    environment: RNPaypal.ENVIRONMENT.NO_NETWORK,
+    intent: RNPaypal.INTENT.SALE,
+    price: 60,
+    currency: 'USD',
+    description: `Android testing`,
+    acceptCreditCards: true
+}).then(response => {
+    console.log(response)
+}).catch(err => {
+    console.log(err.message)
+})
 ```
   
