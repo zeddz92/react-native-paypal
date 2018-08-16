@@ -4,7 +4,7 @@ A wrapper for the paypal sdk for both android and ios.
 
 ## Getting started
 
-`$ npm install react-native-paypal --save`
+`$ npm install react-native-paypal-lib --save`
 
 ### Mostly automatic installation
 
@@ -19,7 +19,7 @@ cd ios && pod init
 
 Add the next line to your **PodFile**:
 ```diff
-+ pod 'RNPaypal', :path => '../node_modules/react-native-paypal/ios'
++ pod 'RNPaypal', :path => '../node_modules/react-native-paypal-lib/ios'
 ```
 
 Install the RNPaypal pod:
