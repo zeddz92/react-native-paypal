@@ -83,7 +83,7 @@ The intent. The allowed values are:
 import RNPaypal from 'react-native-paypal-lib';
 
 RNPaypal.paymentRequest({
-    clientId: 'AejRTPLsWAzFHPGlJ3VseKBkmaTHnAznnk-DlMmRL1LOzYwAlHatDg5SvYjdCf53qXWlYZq06gK2yeO8',
+    clientId: '<YOUR CLIENT ID>',
     environment: RNPaypal.ENVIRONMENT.NO_NETWORK,
     intent: RNPaypal.INTENT.SALE,
     price: 60,
