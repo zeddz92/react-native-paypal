@@ -83,9 +83,12 @@ public class RNPaypalModule extends ReactContextBaseJavaModule implements Activi
     final double price = payPalParameters.getDouble("price");
     final String currency = payPalParameters.getString("currency");
     final String description = payPalParameters.getString("description");
+    final boolean acceptCreditCards = payPalParameters.getBoolean("acceptCreditCards");
 
     PayPalConfiguration config =
             new PayPalConfiguration().environment(environment).clientId(clientId);
+
+    config.acceptCreditCards(acceptCreditCards);
 
     startPayPalService(config);
 
@@ -135,7 +138,6 @@ public class RNPaypalModule extends ReactContextBaseJavaModule implements Activi
   }
 
   public void handleActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
-    Log.v("ACTIVITYRES", "handle result");
     if (requestCode != PAYPAL_REQUEST) {
       return;
     }
