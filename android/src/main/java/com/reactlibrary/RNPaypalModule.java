@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.facebook.internal.BundleJSONConverter;
 import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
@@ -25,12 +24,13 @@ import com.paypal.android.sdk.payments.PaymentActivity;
 import com.paypal.android.sdk.payments.PaymentConfirmation;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
-
-import host.exp.expoview.Exponent;
+import java.util.Set;
 
 public class RNPaypalModule extends ReactContextBaseJavaModule implements ActivityEventListener {
 
@@ -45,20 +45,20 @@ public class RNPaypalModule extends ReactContextBaseJavaModule implements Activi
   private static final String E_ACTIVITY_DOES_NOT_EXIST = "E_ACTIVITY_DOES_NOT_EXIST";
   private static final String E_INVALID_JSON = "E_INVALID_JSON";
 
-  private final host.exp.exponent.ActivityResultListener mActivityEventListener = new host.exp.exponent.ActivityResultListener() {
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-      // some code here
-
-        handleActivityResult(null, requestCode, resultCode, data);
-
-    }
-  };
+//  private final host.exp.exponent.ActivityResultListener mActivityEventListener = new host.exp.exponent.ActivityResultListener() {
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//      // some code here
+//
+//        handleActivityResult(null, requestCode, resultCode, data);
+//
+//    }
+//  };
 
   public RNPaypalModule(ReactApplicationContext reactContext) {
     super(reactContext);
     this.reactContext = reactContext;
-    Exponent.getInstance().addActivityResultListener(mActivityEventListener);
+//    Exponent.getInstance().addActivityResultListener(mActivityEventListener);
   }
 
   @Override
@@ -147,7 +147,7 @@ public class RNPaypalModule extends ReactContextBaseJavaModule implements Activi
               data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
       if (confirm != null) {
         try {
-          Bundle bundle = BundleJSONConverter.convertToBundle(confirm.toJSONObject());
+          Bundle bundle = jsonToBundle(confirm.toJSONObject());
           WritableMap map = Arguments.fromBundle(bundle);
           mPromise.resolve(map);
         } catch (JSONException e) {
@@ -159,6 +159,17 @@ public class RNPaypalModule extends ReactContextBaseJavaModule implements Activi
     } else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
       mPromise.reject(ERROR_INVALID_CONFIG, "Invalid config");
     }
+  }
+
+  public static Bundle jsonToBundle(JSONObject jsonObject) throws JSONException {
+    Bundle bundle = new Bundle();
+    Iterator iter = jsonObject.keys();
+    while(iter.hasNext()){
+      String key = (String)iter.next();
+      String value = jsonObject.getString(key);
+      bundle.putString(key,value);
+    }
+    return bundle;
   }
 
 
