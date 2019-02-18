@@ -12,6 +12,7 @@ import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.BaseActivityEventListener;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Callback;
@@ -32,9 +33,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-public class RNPaypalModule extends ReactContextBaseJavaModule implements ActivityEventListener {
-
-
+public class RNPaypalModule extends ReactContextBaseJavaModule  {
 
   private final ReactApplicationContext reactContext;
   private Promise mPromise;
@@ -45,20 +44,19 @@ public class RNPaypalModule extends ReactContextBaseJavaModule implements Activi
   private static final String E_ACTIVITY_DOES_NOT_EXIST = "E_ACTIVITY_DOES_NOT_EXIST";
   private static final String E_INVALID_JSON = "E_INVALID_JSON";
 
-//  private final host.exp.exponent.ActivityResultListener mActivityEventListener = new host.exp.exponent.ActivityResultListener() {
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//      // some code here
-//
-//        handleActivityResult(null, requestCode, resultCode, data);
-//
-//    }
-//  };
+  private final ActivityEventListener mActivityEventListener = new BaseActivityEventListener() {
+
+    @Override
+    public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent intent) {
+      handleActivityResult(activity, requestCode, resultCode, intent);
+    }
+  };
+
 
   public RNPaypalModule(ReactApplicationContext reactContext) {
     super(reactContext);
     this.reactContext = reactContext;
-//    Exponent.getInstance().addActivityResultListener(mActivityEventListener);
+    reactContext.addActivityEventListener(mActivityEventListener);
   }
 
   @Override
@@ -118,6 +116,7 @@ public class RNPaypalModule extends ReactContextBaseJavaModule implements Activi
   @Nullable
   @Override
   public Map<String, Object> getConstants() {
+    Log.v("getConstants", "handleActivityResult");
     final Map<String, Object> constants = new HashMap<>();
 
     final Map<String, Object> environment = new HashMap<>();
@@ -138,6 +137,7 @@ public class RNPaypalModule extends ReactContextBaseJavaModule implements Activi
   }
 
   public void handleActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
+    Log.v("onActivityResult", "handleActivityResult");
     if (requestCode != PAYPAL_REQUEST) {
       return;
     }
@@ -149,6 +149,7 @@ public class RNPaypalModule extends ReactContextBaseJavaModule implements Activi
         try {
           Bundle bundle = jsonToBundle(confirm.toJSONObject());
           WritableMap map = Arguments.fromBundle(bundle);
+          Log.v("onActivityResult", "resolve");
           mPromise.resolve(map);
         } catch (JSONException e) {
           mPromise.reject(E_INVALID_JSON, "Invalid json");
@@ -172,16 +173,4 @@ public class RNPaypalModule extends ReactContextBaseJavaModule implements Activi
     return bundle;
   }
 
-
-
-  @Override
-  public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
-    handleActivityResult(activity, requestCode, resultCode, data);
-  }
-
-  @Override
-  public void onNewIntent(Intent intent) {
-
-
-  }
 }
