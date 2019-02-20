@@ -32,6 +32,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import com.reactlibrary.utils.BundleJSONConverter;
+
 
 public class RNPaypalModule extends ReactContextBaseJavaModule  {
 
@@ -147,10 +149,9 @@ public class RNPaypalModule extends ReactContextBaseJavaModule  {
               data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
       if (confirm != null) {
         try {
-          Bundle bundle = jsonToBundle(confirm.toJSONObject());
-          WritableMap map = Arguments.fromBundle(bundle);
-          Log.v("onActivityResult", "resolve");
-          mPromise.resolve(map);
+            Bundle bundle = BundleJSONConverter.convertToBundle(confirm.toJSONObject());
+            WritableMap map = Arguments.fromBundle(bundle);
+            mPromise.resolve(map);
         } catch (JSONException e) {
           mPromise.reject(E_INVALID_JSON, "Invalid json");
         }
