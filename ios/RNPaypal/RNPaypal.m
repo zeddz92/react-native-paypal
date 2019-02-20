@@ -88,6 +88,7 @@ RCT_REMAP_METHOD(paymentRequest,
     self.payment = [[PayPalPayment alloc] init];
     _payment.amount = params[@"price"];
     _payment.currencyCode = params[@"currency"];
+    _payment.intent = [params[@"intent"] intValue];
     _payment.shortDescription = params[@"description"];
     _config.acceptCreditCards = params[@"acceptCreditCards"];
 }
