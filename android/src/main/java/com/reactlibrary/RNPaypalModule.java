@@ -3,19 +3,17 @@ package com.reactlibrary;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.BaseActivityEventListener;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.BaseActivityEventListener;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
@@ -23,6 +21,7 @@ import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
 import com.paypal.android.sdk.payments.PaymentActivity;
 import com.paypal.android.sdk.payments.PaymentConfirmation;
+import com.reactlibrary.utils.BundleJSONConverter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,8 +30,6 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
-import com.reactlibrary.utils.BundleJSONConverter;
 
 
 public class RNPaypalModule extends ReactContextBaseJavaModule  {
@@ -79,6 +76,7 @@ public class RNPaypalModule extends ReactContextBaseJavaModule  {
 
     final String environment = payPalParameters.getString("environment");
     final String intent = payPalParameters.getString("intent");
+    final String locale = payPalParameters.getString("locale");
     final String clientId = payPalParameters.getString("clientId");
     final double price = payPalParameters.getDouble("price");
     final String currency = payPalParameters.getString("currency");
@@ -88,6 +86,7 @@ public class RNPaypalModule extends ReactContextBaseJavaModule  {
     PayPalConfiguration config =
             new PayPalConfiguration().environment(environment).clientId(clientId);
 
+    config.languageOrLocale(locale);
     config.acceptCreditCards(acceptCreditCards);
 
     startPayPalService(config);
