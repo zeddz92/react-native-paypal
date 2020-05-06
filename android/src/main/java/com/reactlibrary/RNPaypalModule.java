@@ -4,7 +4,6 @@ package com.reactlibrary;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.facebook.react.bridge.ActivityEventListener;
@@ -113,8 +112,7 @@ public class RNPaypalModule extends ReactContextBaseJavaModule  {
     reactContext.startService(intent);
 
   }
-
-  @Nullable
+  
   @Override
   public Map<String, Object> getConstants() {
     Log.v("getConstants", "handleActivityResult");
