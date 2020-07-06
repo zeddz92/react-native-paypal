@@ -62,6 +62,7 @@ pod install
 |**`price`**| Amount in the given currency to process. Must be positive. |*Integer*|
 |**`currency`**|ISO standard currency code (http://en.wikipedia.org/wiki/ISO_4217). |*String*|
 |**`description`**|A short description of the transaction, for display to the user. |*String*|
+|**`locale`**|ISO standard locale code (http://en.wikipedia.org/wiki/ISO_4217) |*String*|
 |**`acceptCreditCards`**|If set to NO, the SDK will only support paying with PayPal, not with credit cards. |*Bool*|
 
 
@@ -89,6 +90,7 @@ RNPaypal.paymentRequest({
     price: 60,
     currency: 'USD',
     description: `Android testing`,
+    locale: 'en',
     acceptCreditCards: true
 }).then(response => {
     console.log(response)

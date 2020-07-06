@@ -21,7 +21,7 @@
 
 - (dispatch_queue_t)methodQueue
 {
-    _requiredParams = [NSArray arrayWithObjects: @"clientId", @"environment", @"intent", @"price", @"currency", @"description", @"acceptCreditCards", nil];
+    _requiredParams = [NSArray arrayWithObjects: @"clientId", @"environment", @"intent", @"locale", @"price", @"currency", @"description", @"acceptCreditCards", nil];
     return dispatch_get_main_queue();
 }
 RCT_EXPORT_MODULE()
@@ -92,7 +92,8 @@ RCT_REMAP_METHOD(paymentRequest,
     _payment.intent = [params[@"intent"] intValue];
     _payment.currencyCode = params[@"currency"];
     _payment.shortDescription = params[@"description"];
-
+    
+    _config.languageOrLocale = params[@"locale"];
     _config.acceptCreditCards = [params[@"acceptCreditCards"] boolValue];
 }
 
